@@ -1,0 +1,144 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Geist Sans — variable font */
+@font-face {
+  font-family: "Geist Sans";
+  src: url("/fonts/Geist-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Geist Mono — variable font */
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/fonts/GeistMono-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme inline {
+  --font-sans: "Geist Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-stock-healthy: var(--stock-healthy);
+}
+
+:root {
+  --radius: 0.625rem;
+
+  --background: oklch(0.985 0.005 80);
+  --foreground: oklch(0.18 0.03 160);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.03 160);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.03 160);
+  --primary: oklch(0.55 0.17 162);
+  --primary-foreground: oklch(0.985 0.005 80);
+  --secondary: oklch(0.75 0.15 75);
+  --secondary-foreground: oklch(0.18 0.03 160);
+  --muted: oklch(0.95 0.01 80);
+  --muted-foreground: oklch(0.55 0.02 160);
+  --accent: oklch(0.95 0.01 80);
+  --accent-foreground: oklch(0.18 0.03 160);
+  --destructive: oklch(0.60 0.22 25);
+  --destructive-foreground: oklch(0.985 0.005 80);
+  --border: oklch(0.94 0.005 80);
+  --input: oklch(0.92 0.01 80);
+  --ring: oklch(0.55 0.17 162);
+
+  --chart-1: oklch(0.55 0.17 162);
+  --chart-2: oklch(0.75 0.15 75);
+  --chart-3: oklch(0.60 0.17 155);
+  --chart-4: oklch(0.60 0.22 25);
+  --chart-5: oklch(0.55 0.02 160);
+
+  --stock-healthy: oklch(0.60 0.17 155);
+}
+
+.dark {
+  --background: oklch(0.16 0.02 160);
+  --foreground: oklch(0.93 0.01 80);
+  --card: oklch(0.20 0.02 160);
+  --card-foreground: oklch(0.93 0.01 80);
+  --popover: oklch(0.20 0.02 160);
+  --popover-foreground: oklch(0.93 0.01 80);
+  --primary: oklch(0.65 0.17 162);
+  --primary-foreground: oklch(0.16 0.02 160);
+  --secondary: oklch(0.70 0.12 75);
+  --secondary-foreground: oklch(0.16 0.02 160);
+  --muted: oklch(0.25 0.02 160);
+  --muted-foreground: oklch(0.65 0.02 160);
+  --accent: oklch(0.25 0.02 160);
+  --accent-foreground: oklch(0.93 0.01 80);
+  --destructive: oklch(0.65 0.22 25);
+  --destructive-foreground: oklch(0.93 0.01 80);
+  --border: oklch(0.30 0.02 160);
+  --input: oklch(0.30 0.02 160);
+  --ring: oklch(0.65 0.17 162);
+
+  --chart-1: oklch(0.65 0.17 162);
+  --chart-2: oklch(0.70 0.12 75);
+  --chart-3: oklch(0.65 0.17 155);
+  --chart-4: oklch(0.65 0.22 25);
+  --chart-5: oklch(0.65 0.02 160);
+
+  --stock-healthy: oklch(0.65 0.17 155);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}

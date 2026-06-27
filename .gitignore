@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+
+# env (ignore at any depth, incl. backend/.env)
+.env
+.env.local
+.env.production.local
+**/.env
+**/.env.local
+**/.env.*.local
+
+# kiro IDE / spec workspace
+.kiro/
+
+# misc
+*.tsbuildinfo
+next-env.d.ts
+
+# testsprite (auto-generated test artifacts)
+testsprite_tests/
+docs

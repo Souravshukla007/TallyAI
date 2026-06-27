@@ -1,0 +1,22 @@
+version: "1.0"
+metrics:
+  revenue:
+    formula: "SUM(payments.amount)"
+    condition: "payments.status = 'completed'"
+    description: "Total revenue from completed payments"
+  mrr:
+    formula: "SUM(subscriptions.monthly_amount)"
+    condition: "subscriptions.status = 'active'"
+    description: "Monthly Recurring Revenue"
+  churn_rate:
+    formula: "COUNT(CASE WHEN status = 'canceled' THEN 1 END)::float / NULLIF(COUNT(*), 0)"
+    table: "subscriptions"
+    description: "Subscription churn rate"
+  ltv:
+    formula: "AVG(total_spend)"
+    description: "Customer Lifetime Value"
+  active_users:
+    formula: "COUNT(DISTINCT id)"
+    condition: "last_login >= NOW() - INTERVAL '30 days'"
+    table: "users"
+    description: "Users active in the last 30 days"

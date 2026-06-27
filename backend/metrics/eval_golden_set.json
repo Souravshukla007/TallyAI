@@ -1,0 +1,66 @@
+{
+  "labeledSetId": "saas_golden_v1",
+  "description": "Labeled NL->SQL golden set for basic SaaS metrics (Req 12.1).",
+  "pairs": [
+    {
+      "pairId": "revenue_total",
+      "question": "What is our total revenue?",
+      "expectedSql": "SELECT SUM(amount) FROM payments WHERE status = 'completed'"
+    },
+    {
+      "pairId": "revenue_by_month",
+      "question": "Show total revenue by month",
+      "expectedSql": "SELECT date_trunc('month', created_at) AS month, SUM(amount) AS revenue FROM payments WHERE status = 'completed' GROUP BY 1 ORDER BY 1"
+    },
+    {
+      "pairId": "mrr_current",
+      "question": "What is our current MRR?",
+      "expectedSql": "SELECT SUM(monthly_amount) FROM subscriptions WHERE status = 'active'"
+    },
+    {
+      "pairId": "active_users_30d",
+      "question": "How many active users are there in the last 30 days?",
+      "expectedSql": "SELECT COUNT(DISTINCT id) FROM users WHERE last_login >= NOW() - INTERVAL '30 days'"
+    },
+    {
+      "pairId": "new_customers_this_month",
+      "question": "How many new customers signed up this month?",
+      "expectedSql": "SELECT COUNT(*) FROM customers WHERE created_at >= date_trunc('month', NOW())"
+    },
+    {
+      "pairId": "churn_rate",
+      "question": "What is the subscription churn rate?",
+      "expectedSql": "SELECT COUNT(CASE WHEN status = 'canceled' THEN 1 END)::float / NULLIF(COUNT(*), 0) FROM subscriptions"
+    },
+    {
+      "pairId": "ltv_average",
+      "question": "What is the average customer lifetime value?",
+      "expectedSql": "SELECT AVG(total_spend) FROM customers"
+    },
+    {
+      "pairId": "top_customers_by_revenue",
+      "question": "Who are the top 10 customers by revenue?",
+      "expectedSql": "SELECT customer_id, SUM(amount) AS revenue FROM payments WHERE status = 'completed' GROUP BY customer_id ORDER BY revenue DESC LIMIT 10"
+    },
+    {
+      "pairId": "active_subscriptions_count",
+      "question": "How many active subscriptions do we have?",
+      "expectedSql": "SELECT COUNT(*) FROM subscriptions WHERE status = 'active'"
+    },
+    {
+      "pairId": "revenue_by_plan",
+      "question": "Show revenue by plan",
+      "expectedSql": "SELECT plan, SUM(amount) AS revenue FROM payments WHERE status = 'completed' GROUP BY plan ORDER BY revenue DESC"
+    },
+    {
+      "pairId": "failed_payments_count",
+      "question": "How many failed payments were there?",
+      "expectedSql": "SELECT COUNT(*) FROM payments WHERE status = 'failed'"
+    },
+    {
+      "pairId": "trial_conversions",
+      "question": "How many trials converted to paid subscriptions?",
+      "expectedSql": "SELECT COUNT(*) FROM subscriptions WHERE status = 'active' AND trial_converted = true"
+    }
+  ]
+}
