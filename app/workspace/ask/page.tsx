@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Sparkles, ArrowUp, RefreshCw, User, Eye, Zap, X, Clock } from "lucide-react";
 import { AnswerCard } from "@/components/workspace/ask/AnswerCard";
 import { api, USE_MOCK } from "@/lib/api";
+import { usePreferences } from "@/hooks/usePreferences";
 import type { RunEvent } from "@/lib/api";
 import type { AnswerData, AnswerKind, AskFixtures, Step, SupportingQuery, Suggestion } from "@/types/tallyai";
 
@@ -125,12 +127,24 @@ const NODE_STEP: Record<string, number> = {
 };
 
 export default function AskPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-sm text-muted-foreground">Loading…</div>}>
+      <AskWorkspace />
+    </Suspense>
+  );
+}
+
+function AskWorkspace() {
+  const searchParams = useSearchParams();
+  const { previewByDefault } = usePreferences();
   const [fixtures, setFixtures] = useState<AskFixtures | null>(null);
   const [input, setInput] = useState("");
   const [previewMode, setPreviewMode] = useState(true);
   const [thread, setThread] = useState<ThreadItem[]>([]);
   const endRef = useRef<HTMLDivElement>(null);
   const streamsRef = useRef<Record<string, () => void>>({});
+  const prefApplied = useRef(false);
+  const autoSubmitted = useRef(false);
 
   // Supporting-query modal: the exact SQL behind a clicked source chip (Req 9.3, 9.4).
   const [sourceModal, setSourceModal] = useState<{
@@ -217,6 +231,22 @@ export default function AskPage() {
     ]);
     setInput("");
   };
+
+  // Apply the saved "preview before run" default once preferences hydrate.
+  useEffect(() => {
+    if (prefApplied.current) return;
+    prefApplied.current = true;
+    setPreviewMode(previewByDefault);
+  }, [previewByDefault]);
+
+  // Auto-run a question passed from the top-bar search (?q=...).
+  useEffect(() => {
+    const q = searchParams.get("q");
+    if (autoSubmitted.current || !q || !fixtures) return;
+    autoSubmitted.current = true;
+    submit(q);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams, fixtures]);
 
   /** Update one thread item's answer immutably. */
   const patchAnswer = (id: string, patch: (a: AnswerData) => AnswerData) =>

@@ -78,6 +78,10 @@ export default function LandingPage() {
     router.push("/workspace/ask");
   };
 
+  const handleLogin = () => {
+    router.push("/auth");
+  };
+
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [tourActive, setTourActive] = useState(0);
@@ -104,9 +108,14 @@ export default function LandingPage() {
               <a key={l.label} href={l.href} className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">{l.label}</a>
             ))}
           </div>
-          <button type="button" onClick={handleTryDemo} className="hidden items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:brightness-110 md:inline-flex">
-            Try demo <ArrowRight className="h-3.5 w-3.5" />
-          </button>
+          <div className="hidden items-center gap-2 md:flex">
+            <button type="button" onClick={handleLogin} className="rounded-lg px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-muted">
+              Log in
+            </button>
+            <button type="button" onClick={handleTryDemo} className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:brightness-110">
+              Live demo <ArrowRight className="h-3.5 w-3.5" />
+            </button>
+          </div>
           <button type="button" onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2 text-foreground" aria-label="Toggle menu">
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -114,7 +123,8 @@ export default function LandingPage() {
         {mobileOpen && (
           <div className="border-t border-border bg-background px-4 pb-4 md:hidden">
             {navLinks.map((l) => <a key={l.label} href={l.href} onClick={() => setMobileOpen(false)} className="block py-3 text-sm font-medium text-muted-foreground">{l.label}</a>)}
-            <button type="button" onClick={() => { setMobileOpen(false); handleTryDemo(); }} className="mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground">Try demo</button>
+            <button type="button" onClick={() => { setMobileOpen(false); handleLogin(); }} className="mt-2 w-full rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground">Log in</button>
+            <button type="button" onClick={() => { setMobileOpen(false); handleTryDemo(); }} className="mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground">Live demo</button>
           </div>
         )}
       </nav>
@@ -124,9 +134,12 @@ export default function LandingPage() {
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
           <h1 className="text-[34px] font-semibold leading-[1.05] tracking-tight sm:text-[48px] lg:text-[56px]">Ask your database<br />anything.</h1>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">Plain-English questions in. Safe, explainable SQL and consultant-level insights out.</p>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
             <button type="button" onClick={handleTryDemo} className="group inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-base font-semibold text-primary-foreground shadow-lg transition-all hover:shadow-xl hover:brightness-110">
-              Try demo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              Live demo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </button>
+            <button type="button" onClick={handleLogin} className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-6 py-3 text-base font-semibold text-foreground transition-all hover:bg-muted">
+              Log in
             </button>
           </div>
           {/* Inline hero visual */}
@@ -224,7 +237,7 @@ export default function LandingPage() {
             <h2 className="mt-5 text-2xl font-semibold tracking-tight sm:text-3xl lg:text-4xl">Ready to talk to your data?</h2>
             <p className="mx-auto mt-3 max-w-lg text-base text-primary-foreground/85">Explore TallyAI with sample data. No setup required.</p>
             <button type="button" onClick={handleTryDemo} className="group mt-8 inline-flex items-center gap-2 rounded-lg bg-card px-6 py-3 text-base font-semibold text-foreground shadow-lg transition-all hover:brightness-105">
-              Try demo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              Live demo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </button>
           </div>
         </RevealSection>
